@@ -1,85 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:untitled1/splash/splashscreem.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:math' as math;
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter TikTok',
-      debugShowCheckedModeBanner: false,
-      home: splashScreem(),
-    );
-  }
-}
-
-
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
-  @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: HomePage(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'assets/images/tiktok_add.png',
-              height: 25,
-            ),
-            label: 'Add',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.comment_outlined),
-            label: 'Comment',
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF141518),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class UserHomePage extends StatelessWidget {
+  UserHomePage({Key? key}) : super(key: key);
+  //final _controller = PageController(initialPage: 0);
   final List<Map> tiktokItems = [
     {
       "video": "assets/videos/video_1.mp4",
@@ -100,7 +27,26 @@ class HomePage extends StatelessWidget {
       "video": "assets/videos/video_6.mp4",
     },
   ];
+  //const UserHomePage({Key? key}) : super(key: key);
+
   @override
+  /*Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: _controller,
+        scrollDirection: Axis.vertical,
+        children: [
+          MyPost1(),
+          MyPost2(),
+          MyPost3(),
+          MyPost4(),
+        ],
+      ),
+    );
+  }*/
+
+
+
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
@@ -127,6 +73,8 @@ class HomePage extends StatelessWidget {
   }
 }
 
+
+
 class VideoWidget extends StatefulWidget {
   const VideoWidget({Key? key, required this.videoUrl}) : super(key: key);
   final String videoUrl;
@@ -146,6 +94,7 @@ class _VideoWidgetState extends State<VideoWidget> {
     _controller = VideoPlayerController.asset(videoUrl)
       ..initialize().then((_) {
         _controller.setLooping(true);
+        _controller.setVolume(1);
         _controller.play();
         setState(() {});
       });
@@ -156,6 +105,7 @@ class _VideoWidgetState extends State<VideoWidget> {
     return VideoPlayer(_controller);
   }
 }
+
 
 
 
@@ -173,7 +123,7 @@ class PostContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
-                'Suivi',
+                'Suivis',
                 style: TextStyle(
                   color: Colors.white54,
                   fontWeight: FontWeight.w600,
@@ -271,13 +221,13 @@ class PostContent extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
-                      height: 80,
+                      height: 70,
                       child: Column(
                         children: [
                           Icon(
                             Icons.favorite,
                             color: Colors.white.withOpacity(0.85),
-                            size: 45,
+                            size: 40,
                           ),
                           const Text(
                             '25.0K',
@@ -291,13 +241,13 @@ class PostContent extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 80,
+                      height: 70,
                       child: Column(
                         children: [
                           Icon(
-                            Icons.comment,
+                            Icons.chat,
                             color: Colors.white.withOpacity(0.85),
-                            size: 45,
+                            size: 40,
                           ),
                           const Text(
                             '156',
@@ -311,13 +261,33 @@ class PostContent extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 80,
+                      height: 70,
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.bookmark,
+                            color: Colors.white.withOpacity(0.85),
+                            size: 40,
+                          ),
+                          const Text(
+                            '1560',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 70,
                       child: Column(
                         children: [
                           Icon(
                             Icons.share,
                             color: Colors.white.withOpacity(0.85),
-                            size: 45,
+                            size: 40,
                           ),
                           const Text(
                             '123',
@@ -341,6 +311,7 @@ class PostContent extends StatelessWidget {
     );
   }
 }
+
 
 
 
@@ -376,11 +347,11 @@ class _AnimatedLogoState extends State<AnimatedLogo>
     return AnimatedBuilder(
       animation: _controller,
       builder: (_, child) {
-        return Transform.rotate(
-          angle: _controller.value * 2 * math.pi,
-          child: child,
-        );
-      },
+    return Transform.rotate(
+    angle: _controller.value * 2 * math.pi,
+    child: child,
+    );
+    },
       child: Container(
         height: 45,
         width: 45,
@@ -396,3 +367,8 @@ class _AnimatedLogoState extends State<AnimatedLogo>
     );
   }
 }
+
+
+
+
+
